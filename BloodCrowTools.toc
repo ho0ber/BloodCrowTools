@@ -1,5 +1,5 @@
 ## Interface: 120001, 120000
-## Version: 1.0.1
+## Version: 1.0.2
 ## Title: BloodCrowTools
 ## Notes: An addon containing many of the features from weakauras developed by the Blood Crows
 ## Author: Hoober
