@@ -11,3 +11,4 @@ TargetSpecIcon.lua
 HonorLevel.lua
 FixBattleMap.lua
 MuteAnnoyingSounds.lua
+DebuffWatch.lua
