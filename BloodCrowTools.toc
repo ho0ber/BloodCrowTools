@@ -1,0 +1,13 @@
+## Interface: 120001, 120000
+## Version: 1.0.0
+## Title: BloodCrowTools
+## Notes: Mutes the Avatar of Sacrifice
+## Author: Hoober
+
+# In this early version, you must comment out files below
+# for features you do not want. This will be replaced with
+# a settings page soon.
+TargetSpecIcon.lua
+HonorLevel.lua
+FixBattleMap.lua
+MuteAnnoyingSounds.lua
