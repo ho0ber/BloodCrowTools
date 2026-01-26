@@ -24,6 +24,10 @@ local annoyingSounds = {
 local muteEventFrame = CreateFrame("Frame")
 muteEventFrame:RegisterEvent("ADDON_LOADED")
 muteEventFrame:SetScript("OnEvent", function(self, event, addon)
+    if not NS.checkSetting("MuteAnnoyingSounds") then
+        return
+    end
+
     if addon == "BloodCrowTools" then
         for _, soundID in ipairs(annoyingSounds) do
             MuteSoundFile(soundID)

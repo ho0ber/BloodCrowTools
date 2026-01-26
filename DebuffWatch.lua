@@ -9,10 +9,16 @@ DebuffButton:SetSize(120, 120);
 DebuffButton.icon = DebuffButton:CreateTexture(nil, "BACKGROUND");
 DebuffButton.icon:SetAllPoints(DebuffButton);
 DebuffButton.icon:SetTexture(535595);
+DebuffButton:SetAlpha(0.55);
 DebuffButton:Hide()
 
 DebuffButton:RegisterEvent("UNIT_AURA")
 DebuffButton:SetScript("OnEvent", function(self, event, unit, info)
+    if not NS.checkSetting("DebuffWatch") then
+        DebuffButton:Hide()
+        return
+    end
+
     if unit == "player" then
         local auras = C_UnitAuras.GetUnitAuras("player", "PLAYER HARMFUL NOT_CANCELABLE INCLUDE_NAME_PLATE_ONLY")
         for _, aura in ipairs(auras) do

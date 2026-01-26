@@ -20,6 +20,10 @@ local BattleMapEvents = CreateFrame("Frame")
 BattleMapEvents:RegisterEvent("ADDON_LOADED")
 BattleMapEvents:RegisterEvent("CVAR_UPDATE")
 BattleMapEvents:SetScript("OnEvent", function(self, event, ...)
+    if not NS.checkSetting("FixBattleMap") then
+        return
+    end
+    
     if event == "ADDON_LOADED" then
         local addon = ...
         if addon == "BloodCrowTools" then

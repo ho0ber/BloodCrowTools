@@ -52,14 +52,48 @@ TargetSpecButton:SetPushedTexture("Interface\\Buttons\\UI-Quickslot-Depress");
 TargetSpecButton.icon = TargetSpecButton:CreateTexture(nil,"BACKGROUND");
 TargetSpecButton.icon:SetAllPoints(TargetSpecButton);
 TargetSpecButton.icon:SetTexture(535595); --"Interface\\Icons\\INV_Misc_ArmorKit_17");
+
+TargetSpecButton.spec = "Unknown Spec"
  
 TargetSpecButton:SetScript("OnClick",function(self,button)
-    print("He he he, that tickles!");
+    local myName, myRealm = UnitFullName("player")
+    local name, realm = UnitName("target")
+    if realm == nil then
+        realm = myRealm
+    end
+    local guildName, guildRank = GetGuildInfo("target")
+
+
+    local zone = GetRealZoneText()
+    local map = C_Map.GetBestMapForUnit("player")
+    C_Map.SetUserWaypoint({position=C_Map.GetPlayerMapPosition(map, "player"), uiMapID=map})
+    local link = C_Map.GetUserWaypointHyperlink()
+    local msg = "Spotted " .. name .. "-" .. realm
+    if TargetSpecButton.spec ~= "Unknown Spec" then
+        msg = msg .. " (" .. TargetSpecButton.spec .. ")"
+    end
+    if guildName ~= nil then
+        msg = msg .. " of guild " .. guildName
+    end
+    msg = msg .. " in " .. zone .. " " .. link
+
+    if UnitInRaid("player") then
+        SendChatMessage(msg, "RAID", nil, 1)
+    elseif UnitInParty("player") then
+        SendChatMessage(msg, "PARTY", nil, 1)
+    else
+        print(msg)
+    end
 end);
 
 TargetSpecButton:RegisterEvent("PLAYER_TARGET_CHANGED")
 TargetSpecButton:RegisterEvent("UNIT_TARGET")
 TargetSpecButton:SetScript("OnEvent", function(self, event, ...)
+    if not NS.checkSetting("TargetSpecIcon") then
+        TargetSpecButton:Hide()
+        return
+    end
+
     local targetInfo = C_TooltipInfo.GetUnit("target")
     if targetInfo == nil then
         self:Hide()
@@ -76,9 +110,11 @@ TargetSpecButton:SetScript("OnEvent", function(self, event, ...)
         if specIcons[line.leftText] then
             self:Show()
             self.icon:SetTexture(specIcons[line.leftText])
+            TargetSpecButton.spec = line.leftText
             return
         end
     end
 
+    TargetSpecButton.spec = "Unknown Spec"
     self:Hide()
 end);

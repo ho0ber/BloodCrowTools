@@ -1,12 +1,14 @@
 ## Interface: 120001, 120000
-## Version: 1.0.2
+## Version: 1.0.3
 ## Title: BloodCrowTools
+## SavedVariables: BloodCrowToolsSettings
 ## Notes: An addon containing many of the features from weakauras developed by the Blood Crows
 ## Author: Hoober
 
-# In this early version, you must comment out files below
-# for features you do not want. This will be replaced with
-# a settings page soon.
+# Configure the addon
+BloodCrowTools.lua
+
+# Modules
 TargetSpecIcon.lua
 HonorLevel.lua
 FixBattleMap.lua
