@@ -1,4 +1,6 @@
 local addonName, NS = ...
+local moduleName = "DebuffWatch"
+local moduleDescription =  "Watches for major self-debuffs and warns when they appear"
 
 local lastCounter = nil
 local debuffTimer = nil
@@ -14,7 +16,7 @@ DebuffButton:Hide()
 
 DebuffButton:RegisterEvent("UNIT_AURA")
 DebuffButton:SetScript("OnEvent", function(self, event, unit, info)
-    if not NS.checkSetting("DebuffWatch") then
+    if not NS.checkSetting(moduleName) then
         DebuffButton:Hide()
         return
     end
@@ -37,5 +39,22 @@ DebuffButton:SetScript("OnEvent", function(self, event, unit, info)
             end);
         end
         lastCounter = debuff_count
+    end
+end);
+
+-- settings
+table.insert(NS.settingsSubcategories, function()
+    local subCat = Settings.RegisterVerticalLayoutSubcategory(NS.settingsCategory, moduleName)
+    do 
+        local setting = Settings.RegisterAddOnSetting(
+            subCat, --category
+            "enable" .. moduleName, --variable
+            "enable" .. moduleName, --variableKey
+            BloodCrowToolsSettings, --variableTbl
+            type(true), --type
+            "Enable " .. moduleName, --label?
+            true --defaultValue
+        )
+        Settings.CreateCheckbox(subCat, setting, moduleDescription)
     end
 end);

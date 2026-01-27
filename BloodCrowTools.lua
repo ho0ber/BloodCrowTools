@@ -9,29 +9,15 @@ NS.checkSetting = function(settingName)
     return BloodCrowToolsSettings[settingKey]
 end
 
+NS.settingsCategory = Settings.RegisterVerticalLayoutCategory("BloodCrowTools")
+NS.settingsSubcategories = {}
+
 local function configureSettings()
-    NS.settingsCategory = Settings.RegisterVerticalLayoutCategory("BloodCrowTools")
-
-    local modules = {
-        ["TargetSpecIcon"] = "Shows a class/specialization icon for your current (player) target",
-        ["HonorLevel"] = "Shows the honor level of your current (player) target over their emblem",
-        ["FixBattleMap"] = "Scales and moves the battlefield map to the upper left corner of the screen",
-        ["MuteAnnoyingSounds"] = "Mutes assorted annoying/repetitive sounds",
-        ["DebuffWatch"] = "Watches for major self-debuffs and warns when they appear",
-    }
-    for name, tooltip in pairs(modules) do
-        local variable = "enable" .. name
-        local variableKey = variable
-        local variableTbl = BloodCrowToolsSettings
-        local defaultValue = true
-    
-        local setting = Settings.RegisterAddOnSetting(NS.settingsCategory, variable, variableKey, variableTbl, type(defaultValue), name, defaultValue)
-        -- setting:SetValueChangedCallback(OnSettingChanged)
-        Settings.CreateCheckbox(NS.settingsCategory, setting, tooltip)
+    for _, f in ipairs(NS.settingsSubcategories) do
+        f()
     end
-    DevTools_Dump(BloodCrowToolsSettings)
+    -- DevTools_Dump(BloodCrowToolsSettings)
     Settings.RegisterAddOnCategory(NS.settingsCategory)
-
 end
 
 local bct = CreateFrame("Frame")

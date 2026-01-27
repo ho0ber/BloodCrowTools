@@ -1,4 +1,6 @@
 local addonName, NS = ...
+local moduleName = "TargetSpecIcon"
+local moduleDescription = "Shows a class/specialization icon for your current (player) target"
 
 local specIcons = {
     ["Affliction Warlock"] = 136145,
@@ -89,7 +91,7 @@ end);
 TargetSpecButton:RegisterEvent("PLAYER_TARGET_CHANGED")
 TargetSpecButton:RegisterEvent("UNIT_TARGET")
 TargetSpecButton:SetScript("OnEvent", function(self, event, ...)
-    if not NS.checkSetting("TargetSpecIcon") then
+    if not NS.checkSetting(moduleName) then
         TargetSpecButton:Hide()
         return
     end
@@ -117,4 +119,21 @@ TargetSpecButton:SetScript("OnEvent", function(self, event, ...)
 
     TargetSpecButton.spec = "Unknown Spec"
     self:Hide()
+end);
+
+-- settings
+table.insert(NS.settingsSubcategories, function()
+    local subCat = Settings.RegisterVerticalLayoutSubcategory(NS.settingsCategory, moduleName)
+    do 
+        local setting = Settings.RegisterAddOnSetting(
+            subCat, --category
+            "enable" .. moduleName, --variable
+            "enable" .. moduleName, --variableKey
+            BloodCrowToolsSettings, --variableTbl
+            type(true), --type
+            "Enable " .. moduleName, --label?
+            true --defaultValue
+        )
+        Settings.CreateCheckbox(subCat, setting, moduleDescription)
+    end
 end);

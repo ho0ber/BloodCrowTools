@@ -14,3 +14,6 @@ HonorLevel.lua
 FixBattleMap.lua
 MuteAnnoyingSounds.lua
 DebuffWatch.lua
+KillCounter.lua
+CrateAlert.lua
+TalkingHeadsOff.lua

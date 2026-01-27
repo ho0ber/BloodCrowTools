@@ -1,4 +1,6 @@
 local addonName, NS = ...
+local moduleName = "HonorLevel"
+local moduleDescription = "Shows the honor level of your current (player) target over their emblem"
 
 local HonorLevelFrame = CreateFrame("Frame", nil, TargetFrame.TargetFrameContainer);
 HonorLevelFrame.title = HonorLevelFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightLarge");
@@ -10,7 +12,7 @@ HonorLevelFrame.title:SetText("100")
 HonorLevelFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
 HonorLevelFrame:RegisterEvent("UNIT_TARGET")
 HonorLevelFrame:SetScript("OnEvent", function(self, event, ...)
-    if not NS.checkSetting("HonorLevel") then
+    if not NS.checkSetting(moduleName) then
         HonorLevelFrame.title:SetText("")
         return
     end
@@ -22,4 +24,21 @@ HonorLevelFrame:SetScript("OnEvent", function(self, event, ...)
         HonorLevelFrame.title:SetText("")
     end
     
+end);
+
+-- settings
+table.insert(NS.settingsSubcategories, function()
+    local subCat = Settings.RegisterVerticalLayoutSubcategory(NS.settingsCategory, moduleName)
+    do 
+        local setting = Settings.RegisterAddOnSetting(
+            subCat, --category
+            "enable" .. moduleName, --variable
+            "enable" .. moduleName, --variableKey
+            BloodCrowToolsSettings, --variableTbl
+            type(true), --type
+            "Enable " .. moduleName, --label?
+            true --defaultValue
+        )
+        Settings.CreateCheckbox(subCat, setting, moduleDescription)
+    end
 end);

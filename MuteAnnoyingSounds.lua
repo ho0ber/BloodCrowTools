@@ -1,4 +1,6 @@
 local addonName, NS = ...
+local moduleName = "MuteAnnoyingSounds"
+local moduleDescription = "Mutes assorted annoying/repetitive sounds"
 
 local annoyingSounds = {
     -- MON_Moose_Aggro
@@ -24,7 +26,7 @@ local annoyingSounds = {
 local muteEventFrame = CreateFrame("Frame")
 muteEventFrame:RegisterEvent("ADDON_LOADED")
 muteEventFrame:SetScript("OnEvent", function(self, event, addon)
-    if not NS.checkSetting("MuteAnnoyingSounds") then
+    if not NS.checkSetting(moduleName) then
         return
     end
 
@@ -32,5 +34,22 @@ muteEventFrame:SetScript("OnEvent", function(self, event, addon)
         for _, soundID in ipairs(annoyingSounds) do
             MuteSoundFile(soundID)
         end
+    end
+end);
+
+-- settings
+table.insert(NS.settingsSubcategories, function()
+    local subCat = Settings.RegisterVerticalLayoutSubcategory(NS.settingsCategory, moduleName)
+    do 
+        local setting = Settings.RegisterAddOnSetting(
+            subCat, --category
+            "enable" .. moduleName, --variable
+            "enable" .. moduleName, --variableKey
+            BloodCrowToolsSettings, --variableTbl
+            type(true), --type
+            "Enable " .. moduleName, --label?
+            true --defaultValue
+        )
+        Settings.CreateCheckbox(subCat, setting, moduleDescription)
     end
 end);
