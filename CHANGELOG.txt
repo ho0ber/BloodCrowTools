@@ -1,3 +1,4 @@
+- **v1.0.5** - Added settings to HonorLevel, added ShardInfo
 - **v1.0.4** - Added KillCounter, CrateAlert, TalkingHeadsOff modules; improved settings
 - **v1.0.3** - Settings page added
 - **v1.0.2** - Repackage
