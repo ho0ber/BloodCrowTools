@@ -19,11 +19,14 @@ HonorLevelFrame:SetScript("OnEvent", function(self, event, ...)
 
     local hl = UnitHonorLevel("target")
     if hl ~= null and hl > 0 then
-        HonorLevelFrame.title:SetText(hl)
-    else
-        HonorLevelFrame.title:SetText("")
+        if UnitIsPVP("target") or not BloodCrowToolsSettings["honorLevelTargetPVP"] then
+            if UnitIsPVP("player") or not BloodCrowToolsSettings["honorLevelPlayerPVP"] then
+                HonorLevelFrame.title:SetText(hl)
+                return
+            end
+        end
     end
-    
+    HonorLevelFrame.title:SetText("")
 end);
 
 -- settings
@@ -40,5 +43,29 @@ table.insert(NS.settingsSubcategories, function()
             true --defaultValue
         )
         Settings.CreateCheckbox(subCat, setting, moduleDescription)
+    end
+    do 
+        local setting = Settings.RegisterAddOnSetting(
+            subCat, --category
+            "honorLevelTargetPVP", --variable
+            "honorLevelTargetPVP", --variableKey
+            BloodCrowToolsSettings, --variableTbl
+            type(true), --type
+            "PvP Targets Only", --label?
+            true --defaultValue
+        )
+        Settings.CreateCheckbox(subCat, setting, "Show honor level only for PVP-flagged players")
+    end
+    do 
+        local setting = Settings.RegisterAddOnSetting(
+            subCat, --category
+            "honorLevelPlayerPVP", --variable
+            "honorLevelPlayerPVP", --variableKey
+            BloodCrowToolsSettings, --variableTbl
+            type(true), --type
+            "Hide When Not PvP", --label?
+            true --defaultValue
+        )
+        Settings.CreateCheckbox(subCat, setting, "Show honor level only if you are PVP flagged")
     end
 end);
