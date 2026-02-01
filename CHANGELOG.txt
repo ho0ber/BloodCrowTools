@@ -1,3 +1,4 @@
+- **v1.0.7** - Updates to QuestHelper, bugfixes
 - **v1.0.6** - Added Guided Kalu'ak rep questing, bugfixes for secret values
 - **v1.0.5** - Added settings to HonorLevel, added ShardInfo
 - **v1.0.4** - Added KillCounter, CrateAlert, TalkingHeadsOff modules; improved settings

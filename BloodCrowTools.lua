@@ -9,6 +9,16 @@ NS.checkSetting = function(settingName)
     return BloodCrowToolsSettings[settingKey]
 end
 
+NS.registerEvents = function(events, active)
+    for _,event in ipairs(events) do
+        if active then
+            QuestHelperFrame:RegisterEvent(event)
+        else
+            QuestHelperFrame:UnregisterEvent(event)
+        end
+    end
+end
+
 NS.settingsCategory = Settings.RegisterVerticalLayoutCategory("BloodCrowTools")
 NS.settingsSubcategories = {}
 

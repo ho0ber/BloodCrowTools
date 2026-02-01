@@ -111,6 +111,7 @@ local function updateWindow(text)
     local w = QuestHelperFrame.text:GetStringWidth()
     local h = QuestHelperFrame.text:GetStringHeight()
     QuestHelperFrame:SetSize(w+30, h+30)
+    QuestHelperFrame:Show()
 end
 
 local function setWaypoint(target)
@@ -134,12 +135,10 @@ local function getQuest(id)
             return q
         end
     end
-    print("Didn't find quest with id " .. id)
 end
 
 local function getTarget(q, active)
     if not q then
-        print("No quest...")
         return
     end
     local tar = nil
@@ -150,7 +149,6 @@ local function getTarget(q, active)
     end
     local npc = questNPCs[tar]
     if not npc then
-        print("NPC not found for " .. q.id)
         return
     end
     return npc
@@ -158,9 +156,7 @@ end
 
 local function findCurrentQuest()
     for _, quest in ipairs(quests) do
-        -- print("Checking quest ", quest.id)
         if not C_QuestLog.IsQuestFlaggedCompleted(quest.id) then
-            -- print("On quest " .. quest.id )
             return quest
         end
     end
@@ -239,17 +235,48 @@ local function update()
     updateWindow(windowText)
 end
 
-QuestHelperFrame:RegisterEvent("ADDON_LOADED")
-QuestHelperFrame:RegisterEvent("CVAR_UPDATE")
-QuestHelperFrame:RegisterEvent("QUEST_LOG_UPDATE")
-QuestHelperFrame:RegisterEvent("UNIT_SPELLCAST_SENT")
+local events = {
+    "ADDON_LOADED",
+    "CVAR_UPDATE",
+    "QUEST_LOG_UPDATE",
+    "UNIT_SPELLCAST_SENT",
+    "QUEST_GREETING",
+    "GOSSIP_SHOW",
+    "QUEST_COMPLETE",
+    "QUEST_DETAIL",
+}
+
+NS.registerEvents(events, true)
 QuestHelperFrame:SetScript("OnEvent", function(self, event, ...)
     if not NS.checkSetting(moduleName) then
+        NS.registerEvents(events, false)
         QuestHelperFrame:Hide()
         return
     end
-
-    if event == "ADDON_LOADED" then
+    if event == "QUEST_DETAIL" then
+        if getQuest(GetQuestID()) ~= nil then
+            AcceptQuest()
+        end
+    elseif event == "QUEST_COMPLETE" then
+        local qid = GetQuestID()
+        if getQuest(qid) ~= nil then
+            if GetNumQuestRewards() < 2 then
+                GetQuestReward(1)
+            end
+        end
+    elseif event == "GOSSIP_SHOW" then
+        for _,q in pairs(C_GossipInfo.GetAvailableQuests()) do
+            if getQuest(q.questID) ~= nil then
+                C_GossipInfo.SelectAvailableQuest(q.questID)
+            end
+        end
+        for _,q in pairs(C_GossipInfo.GetActiveQuests()) do
+            if getQuest(q.questID) ~= nil then
+                C_GossipInfo.SelectActiveQuest(q.questID)
+                CompleteQuest()
+            end
+        end
+    elseif event == "ADDON_LOADED" then
         local addon, _ = ...
         if addon == "BloodCrowTools" then
             if BloodCrowToolsSettings["QuestHelperX"] ~= nil and BloodCrowToolsSettings["QuestHelperY"] ~= nil then
@@ -276,6 +303,15 @@ table.insert(NS.settingsSubcategories, function()
             "Enable " .. moduleName, --label?
             false --defaultValue
         )
+        setting:SetValueChangedCallback(function()
+            if NS.checkSetting(moduleName) then
+                QuestHelperFrame:Show()
+                NS.registerEvents(events, true)
+            else
+                QuestHelperFrame:Hide()
+                NS.registerEvents(events, false)
+            end
+        end);
         Settings.CreateCheckbox(subCat, setting, moduleDescription)
     end
 end);

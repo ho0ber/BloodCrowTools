@@ -98,19 +98,19 @@ TargetSpecButton:SetScript("OnEvent", function(self, event, ...)
 
     local targetInfo = C_TooltipInfo.GetUnit("target")
     if targetInfo == nil then
-        self:Hide()
+        TargetSpecButton:Hide()
         return
     end
 
     local lines = targetInfo.lines;
     if lines == nil then
-        self:Hide()
+        TargetSpecButton:Hide()
         return
     end
 
     for _, line in ipairs(lines) do
         if issecretvalue(line) or issecretvalue(line.leftText) then
-            self:Hide()
+            TargetSpecButton:Hide()
             return
         end
         if specIcons[line.leftText] then
@@ -122,7 +122,7 @@ TargetSpecButton:SetScript("OnEvent", function(self, event, ...)
     end
 
     TargetSpecButton.spec = "Unknown Spec"
-    self:Hide()
+    TargetSpecButton:Hide()
 end);
 
 -- settings
