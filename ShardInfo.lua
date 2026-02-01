@@ -18,7 +18,7 @@ ShardInfoFrame:SetScript("OnEvent", function(self, event, ...)
     end
 
     local guid = UnitGUID("target")
-    if guid ~= nil then
+    if guid ~= nil and not issecretvalue(guid) then
         local type, _ = strsplit("-", guid, 2)
         if type == "Creature" then
             local _, _, _, _, shardID = strsplit("-", guid, 6)

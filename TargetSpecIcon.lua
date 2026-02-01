@@ -109,6 +109,10 @@ TargetSpecButton:SetScript("OnEvent", function(self, event, ...)
     end
 
     for _, line in ipairs(lines) do
+        if issecretvalue(line) or issecretvalue(line.leftText) then
+            self:Hide()
+            return
+        end
         if specIcons[line.leftText] then
             self:Show()
             self.icon:SetTexture(specIcons[line.leftText])
