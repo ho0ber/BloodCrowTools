@@ -259,7 +259,7 @@ QuestHelperFrame:SetScript("OnEvent", function(self, event, ...)
         end
     elseif event == "QUEST_COMPLETE" then
         local qid = GetQuestID()
-        if getQuest(qid) ~= nil then
+        if getQuest(qid) ~= nil and criteriaComplete(qid) then
             if GetNumQuestRewards() < 2 then
                 GetQuestReward(1)
             end
@@ -271,7 +271,7 @@ QuestHelperFrame:SetScript("OnEvent", function(self, event, ...)
             end
         end
         for _,q in pairs(C_GossipInfo.GetActiveQuests()) do
-            if getQuest(q.questID) ~= nil then
+            if getQuest(q.questID) ~= nil and criteriaComplete(q.questID) then
                 C_GossipInfo.SelectActiveQuest(q.questID)
                 CompleteQuest()
             end
