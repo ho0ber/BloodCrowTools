@@ -1,3 +1,4 @@
+- **v1.0.9** - DisconnectAlert added - contributed by our Chief Science Officer
 - **v1.0.8** - QuestHelper auto-complete fixes
 - **v1.0.7** - Updates to QuestHelper, bugfixes
 - **v1.0.6** - Added Guided Kalu'ak rep questing, bugfixes for secret values

@@ -121,7 +121,11 @@ local function setWaypoint(target)
 end
 
 local function criteriaComplete(questID)
-    for _, criteria in ipairs(C_QuestLog.GetQuestObjectives(questID)) do
+    local ob = C_QuestLog.GetQuestObjectives(questID)
+    if objectives == nil then
+        return true
+    end
+    for _, criteria in ipairs(ob) do
         if not criteria.finished then
             return false
         end
