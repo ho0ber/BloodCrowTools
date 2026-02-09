@@ -137,13 +137,23 @@ end
 function DisconnectAlert_ProcessPartyChanges()
     local Removed = true
     local Count = 0
+    local GroupCount = GetNumGroupMembers()
 
     for _, _ in pairs(DisconnectAlert_PartyTable) do
         Count = Count + 1
     end
 
-    if GetNumGroupMembers() - 1 ~= Count then
-        DisconnectAlert_DbgPrint("DisconnectAlert: Clearing party table due to size change (" .. tostring(GetNumGroupMembers() - 1) .. ", " .. tostring(Count) .. ").")
+    --
+    -- Self is not included in the count of party members, but is in the count
+    -- of raid members.
+    --
+
+    if not IsInRaid() then
+        GroupCount = GroupCount - 1
+    end
+
+    if GroupCount ~= Count then
+        DisconnectAlert_DbgPrint("DisconnectAlert: Clearing party table due to size change (" .. tostring(GroupCount) .. ", " .. tostring(Count) .. ").")
         DisconnectAlert_PartyTable = {}
     end
 

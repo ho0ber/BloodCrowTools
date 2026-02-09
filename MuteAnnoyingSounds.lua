@@ -20,7 +20,10 @@ local annoyingSounds = {
     -- MON_Moose_WoundCrit
     1126359, 1126360, 1126361, 1126362, 1126363, 1126364,
     -- I understand your frustration, Geya'rah
-    6652259
+    6652259,
+    -- Topskimmer Sounds
+    6310286, 6310288, 6310290, 6310292, 6310294, 6310298, 6310300, 
+    6323361, 6323363, 6323365, 6323367, 6323369, 6323371, 6323373,
 }
 
 local muteEventFrame = CreateFrame("Frame")
