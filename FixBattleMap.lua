@@ -21,6 +21,7 @@ end
 local BattleMapEvents = CreateFrame("Frame")
 BattleMapEvents:RegisterEvent("ADDON_LOADED")
 BattleMapEvents:RegisterEvent("CVAR_UPDATE")
+BattleMapEvents:RegisterEvent("PLAYER_ENTERING_WORLD")
 BattleMapEvents:SetScript("OnEvent", function(self, event, ...)
     if not NS.checkSetting(moduleName) then
         return
@@ -33,6 +34,8 @@ BattleMapEvents:SetScript("OnEvent", function(self, event, ...)
         end
     elseif event == "CVAR_UPDATE" then
         cvarUpdate(...)
+    else
+        fixBattleMap()
     end
 end);
 

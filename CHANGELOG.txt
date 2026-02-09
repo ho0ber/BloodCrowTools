@@ -1,3 +1,4 @@
+- **v1.0.11** - Fix bug on FixBattleMap where the map moves after a loading screen
 - **v1.0.10** - DisconnectAlert fixes, IdleAlert added
 - **v1.0.9** - DisconnectAlert added - contributed by our Chief Science Officer
 - **v1.0.8** - QuestHelper auto-complete fixes
